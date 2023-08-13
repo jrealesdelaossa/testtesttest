@@ -36,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> positionsX = new ArrayList<>();
     ArrayList<String> positionsO = new ArrayList<>();
 
+    String idString;
+    String firstPosition;
+    String lastPosition;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         square8 = findViewById(R.id.square8);
         square9 = findViewById(R.id.square9);
 
-        definePositionsMatrix();
+        String idFirstPosition = square1.getId() + "";
+
+        definePositionsMatrix(idFirstPosition);
 
         playerX = findViewById(R.id.playerx);
         playerO = findViewById(R.id.playero);
@@ -76,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         // get id of image
         String id = view.getId() + "";
         String positionSelect = id.substring(id.length() - 3);
-        Log.i("turn", "Turn of " + turns + " - " + positionSelect + " - " + id );
 
         boolean winnerX;
         boolean winnerY;
@@ -118,41 +124,54 @@ public class MainActivity extends AppCompatActivity {
         view.setEnabled(false);
     }
 
-    private void definePositionsMatrix() {
+    private void definePositionsMatrix(String idFirstPosition) {
+        String id1 = idFirstPosition.substring(idFirstPosition.length() - 3);
+        String id2 = Integer.parseInt(id1) + 1 + "";
+        String id3 = Integer.parseInt(id2) + 1 + "";
+        String id4 = Integer.parseInt(id3) + 1 + "";
+        String id5 = Integer.parseInt(id4) + 1 + "";
+        String id6 = Integer.parseInt(id5) + 1 + "";
+        String id7 = Integer.parseInt(id6) + 1 + "";
+        String id8 = Integer.parseInt(id7) + 1 + "";
+        String id9 = Integer.parseInt(id8) + 1 + "";
+
+        firstPosition = id1;
+        lastPosition = id9;
+
         // horizontal
-        winnerPositions[0][0] = "107";
-        winnerPositions[0][1] = "108";
-        winnerPositions[0][2] = "109";
+        winnerPositions[0][0] = id1;
+        winnerPositions[0][1] = id2;
+        winnerPositions[0][2] = id3;
 
-        winnerPositions[1][0] = "110";
-        winnerPositions[1][1] = "111";
-        winnerPositions[1][2] = "112";
+        winnerPositions[1][0] = id4;
+        winnerPositions[1][1] = id5;
+        winnerPositions[1][2] = id6;
 
-        winnerPositions[2][0] = "113";
-        winnerPositions[2][1] = "114";
-        winnerPositions[2][2] = "115";
+        winnerPositions[2][0] = id7;
+        winnerPositions[2][1] = id8;
+        winnerPositions[2][2] = id9;
 
         // vertical
-        winnerPositions[5][0] = "109";
-        winnerPositions[5][1] = "112";
-        winnerPositions[5][2] = "115";
+        winnerPositions[5][0] = id3;
+        winnerPositions[5][1] = id6;
+        winnerPositions[5][2] = id9;
 
-        winnerPositions[3][0] = "107";
-        winnerPositions[3][1] = "110";
-        winnerPositions[3][2] = "113";
+        winnerPositions[3][0] = id2;
+        winnerPositions[3][1] = id5;
+        winnerPositions[3][2] = id8;
 
-        winnerPositions[4][0] = "108";
-        winnerPositions[4][1] = "111";
-        winnerPositions[4][2] = "114";
+        winnerPositions[4][0] = id1;
+        winnerPositions[4][1] = id4;
+        winnerPositions[4][2] = id7;
 
         // diagonal
-        winnerPositions[6][0] = "107";
-        winnerPositions[6][1] = "111";
-        winnerPositions[6][2] = "115";
+        winnerPositions[6][0] = id1;
+        winnerPositions[6][1] = id5;
+        winnerPositions[6][2] = id9;
 
-        winnerPositions[7][0] = "109";
-        winnerPositions[7][1] = "111";
-        winnerPositions[7][2] = "113";
+        winnerPositions[7][0] = id3;
+        winnerPositions[7][1] = id5;
+        winnerPositions[7][2] = id7;
     }
 
     private boolean validateWinner(String player, ArrayList<String> posPlayer, String[][] posWinner) {
@@ -168,9 +187,11 @@ public class MainActivity extends AppCompatActivity {
                 for (String pos : posPlayer) {
                     if (pos.equals(posWin)) {
                         count++;
+                        Log.i("error", "Error");
                     }
                 }
             }
+
             if (count == 3) {
                 winner = true;
                 break;
@@ -205,8 +226,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void disableTableOfGame() {
         String defaultId = "2131231";
+        int start = Integer.parseInt(firstPosition);
+        int end = Integer.parseInt(lastPosition);
 
-        for (int i = 195; i <= 203; i++) {
+        for (int i = start; i <= end; i++) {
             int id = Integer.parseInt(defaultId + i);
             ImageView position = findViewById(id);
             position.setEnabled(false);
